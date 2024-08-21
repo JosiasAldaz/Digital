@@ -1,0 +1,116 @@
+<div class="table-container">
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">ID HABITACIÓN</th>
+          <th scope="col">Nº HABITACIÓN</th>
+          <th scope="col">DESCRIPCIÓN</th>
+          <th scope="col">ESTADO</th>
+          <th scope="col">PRECIO</th>
+          <th scope="col">TIPO DE HABITACIÓN</th>
+          <th scope="col">ACCIONES</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let habitacion of habitaciones">
+          <td>{{ habitacion.id_habitacion }}</td>
+          <td>{{ habitacion.numeroHabitacion }}</td>
+          <td>{{ habitacion.descripcion }}</td>
+          <td>{{ habitacion.estado }}</td>
+          <td>{{ habitacion.precioHabitacion | currency }}</td>
+          <td>{{ habitacion.tipo.nombre }}</td>
+          <td>
+            <button class="btn btn-primary btn-sm" (click)="editar(habitacion)">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn btn-danger btn-sm" (click)="eliminar(habitacion.id_habitacion)">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Ventana Flotante para Editar -->
+<div class="modal" *ngIf="isModalOpen">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <h2>Editar Habitación</h2>
+    <form #form="ngForm" >
+      <div class="form-group">
+        <label for="numeroHabitacion">Nº Habitación:</label>
+        <input
+          type="text"
+          [(ngModel)]="registroSeleccionado.numeroHabitacion"
+          name="numeroHabitacion"
+          #numeroHabitacion="ngModel"
+          required
+        />
+        <div *ngIf="numeroHabitacion.invalid && numeroHabitacion.touched">
+          <small class="error">Este campo es obligatorio.</small>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="descripcion">Descripción:</label>
+        <input
+          type="text"
+          [(ngModel)]="registroSeleccionado.descripcion"
+          name="descripcion"
+          #descripcion="ngModel"
+          required
+        />
+        <div *ngIf="descripcion.invalid && descripcion.touched">
+          <small class="error">Este campo es obligatorio.</small>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="estado">Estado:</label>
+        <input
+          type="text"
+          [(ngModel)]="registroSeleccionado.estado"
+          name="estado"
+          #estado="ngModel"
+          required
+        />
+        <div *ngIf="estado.invalid && estado.touched">
+          <small class="error">Este campo es obligatorio.</small>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="precioHabitacion">Precio:</label>
+        <input
+          type="number"
+          [(ngModel)]="registroSeleccionado.precioHabitacion"
+          name="precioHabitacion"
+          #precioHabitacion="ngModel"
+          required
+          min="0"
+        />
+        <div *ngIf="precioHabitacion.invalid && precioHabitacion.touched">
+          <small class="error" *ngIf="precioHabitacion.errors?.required">Este campo es obligatorio.</small>
+          <small class="error" *ngIf="precioHabitacion.errors?.min">El precio debe ser mayor o igual a 0.</small>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="tipoHabitacion" style="display: block; text-align: center; margin-bottom: 5px;">Tipo de Habitación:</label>
+        <select
+          name="tipoHabitacion"
+          [(ngModel)]="registroSeleccionado.tipo.id_tipo"
+          #tipoHabitacion="ngModel"
+          required
+          style="border-radius: 25px; padding: 10px 15px; border: 1px solid #ccc; width: 100%; box-sizing: border-box;"
+        >
+          <option value="" disabled>Selecciona un tipo</option>
+          <option *ngFor="let tipo of tiposHabitacion" [value]="tipo.id_tipo">{{ tipo.nombre }}</option>
+        </select>
+        <div *ngIf="tipoHabitacion.invalid && tipoHabitacion.touched">
+          <small class="error">Este campo es obligatorio.</small>
+        </div>
+      </div>
+      <button type="submit" class="submit-btn" id="modalSubmitBtn" [disabled]="form.invalid"  (click)="guardarCambios(habitacion)">Guardar Cambios</button>
+    </form>
+  </div>
+</div>

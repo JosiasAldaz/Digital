@@ -1,0 +1,47 @@
+<div class="table-container">
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">ID TIPO</th>
+          <th scope="col">NOMBRE</th>
+          <th scope="col">ACCIONES</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tipo of tipos">
+          <td>{{ tipo.id_tipo }}</td>
+          <td>{{ tipo.nombre }}</td>
+          <td>
+            <button class="btn btn-primary btn-sm" (click)="editar(tipo)">Editar</button>
+            <button class="btn btn-danger btn-sm" (click)="eliminar(tipo.id_tipo)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Ventana Flotante para Editar -->
+<div class="modal" *ngIf="isModalOpen">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <h2>Editar Habitación</h2>
+    <form #form="ngForm" >
+      <div class="form-group">
+        <label for="numeroHabitacion">Nº Habitación:</label>
+        <input
+          type="text"
+          [(ngModel)]="registroSeleccionado.nombre"
+          name="numeroHabitacion"
+          #numeroHabitacion="ngModel"
+          required
+        />
+        <div *ngIf="numeroHabitacion.invalid && numeroHabitacion.touched">
+          <small class="error">Este campo es obligatorio.</small>
+        </div>
+      </div>
+      <button type="submit" class="submit-btn" id="modalSubmitBtn" [disabled]="form.invalid"  (click)="guardarCambios(tipo)">Guardar Cambios</button>
+    </form>
+  </div>
+</div>

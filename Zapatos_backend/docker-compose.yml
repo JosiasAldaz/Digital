@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  apiZapateria:
+    image: rubenking23/api_zapateria
+    container_name: api_zapateria
+    networks:
+      - net-cloud
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/complexivo
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=Nahofumi2001
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+      - SPRING_JPA_SHOW_SQL=false
+      - SPRING_DATASOURCE_CACHEPREPSTMTS=false
+    ports:
+      - 9094:8080
+    restart: always
+
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    networks:
+      - net-cloud
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_DB=complexivo
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Nahofumi2001
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: always
+
+  webZapateria:
+    image: rubenking23/web_zapateria
+    container_name: web_zapateria
+    networks:
+      - net-cloud
+    ports:
+      - 9096:80
+    depends_on:
+      - apiZapateria
+    restart: always
+
+networks:
+  net-cloud:
+
+volumes:
+  postgres-data:
+

@@ -1,0 +1,87 @@
+<div class="bg-light dark:bg-transparent min-vh-100 d-flex flex-row align-items-center">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-7 col-md-9 col-xl-6">
+        <div class="card mx-4">
+          <div class="card-body p-4">
+            <!-- register.component.html -->
+            <form>
+              <h3>REGISTRO DE HABITACIONES</h3>
+              <p class="text-body-secondary">CREAR CUENTA DE USUARIO</p>
+            
+              <div class="input-group mb-3">
+                <input
+                  name="numeroHabitacion"
+                  [(ngModel)]="numeroHabitacion"
+                  #numeroHabitacionInput="ngModel"
+                  required
+                  class="form-control"
+                  placeholder="Nº de Habitación"
+                />
+              </div>
+            
+              <div class="input-group mb-3">
+                <select
+                  name="tipoHabitacion"
+                  [(ngModel)]="tipoHabitacion"
+                  #tipoHabitacionInput="ngModel"
+                  required
+                  class="form-control"
+                  placeholder="Tipo de Habitación"
+                >
+                  <option value="" disabled selected>Seleccione un tipo</option>
+                  <option *ngFor="let tipo of tiposHabitacion" [value]="tipo.id_tipo">{{ tipo.nombre }}</option>
+                </select>
+              </div>
+            
+              <div class="input-group mb-3">
+                <input
+                  name="descripcion"
+                  [(ngModel)]="descripcion"
+                  #descripcionInput="ngModel"
+                  required
+                  class="form-control"
+                  placeholder="Descripción"
+                />
+              </div>
+            
+              <div class="input-group mb-3">
+                <input
+                  name="precio"
+                  [(ngModel)]="precio"
+                  #precioInput="ngModel"
+                  required
+                  class="form-control"
+                  placeholder="Precio"
+                  type="number"
+                />
+              </div>
+            
+              <div class="input-group mb-3">
+                <select
+                  name="estado"
+                  [(ngModel)]="estado"
+                  #estadoInput="ngModel"
+                  required
+                  class="form-control"
+                  placeholder="Estado"
+                >
+                  <option value="" disabled selected>Selecciona un estado</option>
+                  <option value="Disponible">Disponible</option>
+                  <option value="Ocupada">Ocupada</option>
+                  <option value="Mantenimiento">Mantenimiento</option>
+                </select>
+              </div>
+            
+              <div class="d-grid">
+                <button (click)="Registrar()" class="btn btn-success" type="submit">Create Account</button>
+              </div><br>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
